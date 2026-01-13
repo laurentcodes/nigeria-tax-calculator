@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: oklch(100% 0 0);
+  --color-foreground: oklch(15% 0.02 255);
+  --color-card: oklch(100% 0 0);
+  --color-card-foreground: oklch(15% 0.02 255);
+  --color-primary: oklch(52% 0.2 160);
+  --color-primary-foreground: oklch(98% 0.01 0);
+  --color-secondary: oklch(96% 0.01 240);
+  --color-secondary-foreground: oklch(20% 0.02 255);
+  --color-muted: oklch(96% 0.01 240);
+  --color-muted-foreground: oklch(60% 0.02 240);
+  --color-accent: oklch(96% 0.01 240);
+  --color-accent-foreground: oklch(20% 0.02 255);
+  --color-destructive: oklch(60% 0.2 25);
+  --color-destructive-foreground: oklch(98% 0.01 240);
+  --color-border: oklch(90% 0.01 240);
+  --color-input: oklch(90% 0.01 240);
+  --color-ring: oklch(52% 0.2 160);
+  --radius: 0.5rem;
+  --radius-lg: 0.5rem;
+  --radius-md: calc(0.5rem - 2px);
+  --radius-sm: calc(0.5rem - 4px);
+}
+
+@media (prefers-color-scheme: dark) {
+  @theme {
+    --color-background: oklch(15% 0.02 255);
+    --color-foreground: oklch(98% 0.01 240);
+    --color-card: oklch(15% 0.02 255);
+    --color-card-foreground: oklch(98% 0.01 240);
+    --color-primary: oklch(55% 0.18 160);
+    --color-primary-foreground: oklch(15% 0.15 160);
+    --color-secondary: oklch(25% 0.02 240);
+    --color-secondary-foreground: oklch(98% 0.01 240);
+    --color-muted: oklch(25% 0.02 240);
+    --color-muted-foreground: oklch(70% 0.01 240);
+    --color-accent: oklch(25% 0.02 240);
+    --color-accent-foreground: oklch(98% 0.01 240);
+    --color-destructive: oklch(40% 0.15 25);
+    --color-destructive-foreground: oklch(98% 0.01 240);
+    --color-border: oklch(25% 0.02 240);
+    --color-input: oklch(25% 0.02 240);
+    --color-ring: oklch(52% 0.2 160);
+  }
+}
+
+* {
+  border-color: var(--color-border);
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
