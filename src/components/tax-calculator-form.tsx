@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { useForm } from "@tanstack/react-form"
 import { zodValidator } from "@tanstack/zod-form-adapter"
 import { Input } from "@/components/ui/input"
@@ -8,6 +9,8 @@ import { taxInputSchema } from "@/lib/validation"
 import type { TaxInput, TaxResult } from "@/lib/tax-types"
 import { calculateTax } from "@/lib/tax-calculator"
 import { parseNumericInput, formatNumber } from "@/lib/utils"
+
+type NumericFieldName = "basicSalary" | "housingAllowance" | "transportAllowance" | "otherAllowances" | "annualRent" | "lifeInsurancePremium"
 
 const defaultValues: TaxInput = {
   basicSalary: 0,
@@ -26,6 +29,16 @@ interface TaxCalculatorFormProps {
 }
 
 export function TaxCalculatorForm({ onCalculate }: TaxCalculatorFormProps) {
+  // Track raw input strings to allow decimal entry (e.g., "3." while typing "3.12")
+  const [rawInputs, setRawInputs] = useState<Record<NumericFieldName, string>>({
+    basicSalary: "",
+    housingAllowance: "",
+    transportAllowance: "",
+    otherAllowances: "",
+    annualRent: "",
+    lifeInsurancePremium: "",
+  })
+
   const form = useForm({
     defaultValues,
     validatorAdapter: zodValidator(),
@@ -39,10 +52,13 @@ export function TaxCalculatorForm({ onCalculate }: TaxCalculatorFormProps) {
   })
 
   const handleNumericChange = (
-    fieldName: keyof TaxInput,
+    fieldName: NumericFieldName,
     value: string,
     onChange: (val: number) => void
   ) => {
+    // Store the raw input to preserve decimal points while typing
+    setRawInputs((prev) => ({ ...prev, [fieldName]: value }))
+
     const numericValue = parseNumericInput(value)
     onChange(numericValue)
 
@@ -51,6 +67,23 @@ export function TaxCalculatorForm({ onCalculate }: TaxCalculatorFormProps) {
     const updatedValues = { ...currentValues, [fieldName]: numericValue }
     const result = calculateTax(updatedValues)
     onCalculate(result)
+  }
+
+  const handleNumericBlur = (
+    fieldName: NumericFieldName,
+    value: number
+  ) => {
+    // On blur, format the value and clear raw input
+    setRawInputs((prev) => ({ ...prev, [fieldName]: "" }))
+  }
+
+  const getDisplayValue = (fieldName: NumericFieldName, numericValue: number): string => {
+    // If there's a raw input (user is typing), show that
+    if (rawInputs[fieldName]) {
+      return rawInputs[fieldName]
+    }
+    // Otherwise show formatted value
+    return numericValue ? formatNumber(numericValue) : ""
   }
 
   return (
@@ -82,11 +115,14 @@ export function TaxCalculatorForm({ onCalculate }: TaxCalculatorFormProps) {
                     type="text"
                     inputMode="decimal"
                     placeholder="0"
-                    value={field.state.value ? formatNumber(field.state.value) : ""}
+                    value={getDisplayValue("basicSalary", field.state.value)}
                     onChange={(e) =>
                       handleNumericChange("basicSalary", e.target.value, field.handleChange)
                     }
-                    onBlur={field.handleBlur}
+                    onBlur={() => {
+                      handleNumericBlur("basicSalary", field.state.value)
+                      field.handleBlur()
+                    }}
                   />
 
                   {field.state.meta.errors.length > 0 && (
@@ -108,11 +144,14 @@ export function TaxCalculatorForm({ onCalculate }: TaxCalculatorFormProps) {
                     type="text"
                     inputMode="decimal"
                     placeholder="0"
-                    value={field.state.value ? formatNumber(field.state.value) : ""}
+                    value={getDisplayValue("housingAllowance", field.state.value)}
                     onChange={(e) =>
                       handleNumericChange("housingAllowance", e.target.value, field.handleChange)
                     }
-                    onBlur={field.handleBlur}
+                    onBlur={() => {
+                      handleNumericBlur("housingAllowance", field.state.value)
+                      field.handleBlur()
+                    }}
                   />
                 </div>
               )}
@@ -128,11 +167,14 @@ export function TaxCalculatorForm({ onCalculate }: TaxCalculatorFormProps) {
                     type="text"
                     inputMode="decimal"
                     placeholder="0"
-                    value={field.state.value ? formatNumber(field.state.value) : ""}
+                    value={getDisplayValue("transportAllowance", field.state.value)}
                     onChange={(e) =>
                       handleNumericChange("transportAllowance", e.target.value, field.handleChange)
                     }
-                    onBlur={field.handleBlur}
+                    onBlur={() => {
+                      handleNumericBlur("transportAllowance", field.state.value)
+                      field.handleBlur()
+                    }}
                   />
                 </div>
               )}
@@ -148,11 +190,14 @@ export function TaxCalculatorForm({ onCalculate }: TaxCalculatorFormProps) {
                     type="text"
                     inputMode="decimal"
                     placeholder="0"
-                    value={field.state.value ? formatNumber(field.state.value) : ""}
+                    value={getDisplayValue("otherAllowances", field.state.value)}
                     onChange={(e) =>
                       handleNumericChange("otherAllowances", e.target.value, field.handleChange)
                     }
-                    onBlur={field.handleBlur}
+                    onBlur={() => {
+                      handleNumericBlur("otherAllowances", field.state.value)
+                      field.handleBlur()
+                    }}
                   />
                 </div>
               )}
@@ -177,11 +222,14 @@ export function TaxCalculatorForm({ onCalculate }: TaxCalculatorFormProps) {
                     type="text"
                     inputMode="decimal"
                     placeholder="0"
-                    value={field.state.value ? formatNumber(field.state.value) : ""}
+                    value={getDisplayValue("annualRent", field.state.value)}
                     onChange={(e) =>
                       handleNumericChange("annualRent", e.target.value, field.handleChange)
                     }
-                    onBlur={field.handleBlur}
+                    onBlur={() => {
+                      handleNumericBlur("annualRent", field.state.value)
+                      field.handleBlur()
+                    }}
                   />
                 </div>
               )}
@@ -197,11 +245,14 @@ export function TaxCalculatorForm({ onCalculate }: TaxCalculatorFormProps) {
                     type="text"
                     inputMode="decimal"
                     placeholder="0"
-                    value={field.state.value ? formatNumber(field.state.value) : ""}
+                    value={getDisplayValue("lifeInsurancePremium", field.state.value)}
                     onChange={(e) =>
                       handleNumericChange("lifeInsurancePremium", e.target.value, field.handleChange)
                     }
-                    onBlur={field.handleBlur}
+                    onBlur={() => {
+                      handleNumericBlur("lifeInsurancePremium", field.state.value)
+                      field.handleBlur()
+                    }}
                   />
                 </div>
               )}
