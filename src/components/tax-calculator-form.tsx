@@ -80,7 +80,7 @@ export function TaxCalculatorForm({ onCalculate }: TaxCalculatorFormProps) {
                   <Input
                     id={field.name}
                     type="text"
-                    inputMode="numeric"
+                    inputMode="decimal"
                     placeholder="0"
                     value={field.state.value ? formatNumber(field.state.value) : ""}
                     onChange={(e) =>
@@ -106,7 +106,7 @@ export function TaxCalculatorForm({ onCalculate }: TaxCalculatorFormProps) {
                   <Input
                     id={field.name}
                     type="text"
-                    inputMode="numeric"
+                    inputMode="decimal"
                     placeholder="0"
                     value={field.state.value ? formatNumber(field.state.value) : ""}
                     onChange={(e) =>
@@ -126,7 +126,7 @@ export function TaxCalculatorForm({ onCalculate }: TaxCalculatorFormProps) {
                   <Input
                     id={field.name}
                     type="text"
-                    inputMode="numeric"
+                    inputMode="decimal"
                     placeholder="0"
                     value={field.state.value ? formatNumber(field.state.value) : ""}
                     onChange={(e) =>
@@ -146,7 +146,7 @@ export function TaxCalculatorForm({ onCalculate }: TaxCalculatorFormProps) {
                   <Input
                     id={field.name}
                     type="text"
-                    inputMode="numeric"
+                    inputMode="decimal"
                     placeholder="0"
                     value={field.state.value ? formatNumber(field.state.value) : ""}
                     onChange={(e) =>
@@ -175,7 +175,7 @@ export function TaxCalculatorForm({ onCalculate }: TaxCalculatorFormProps) {
                   <Input
                     id={field.name}
                     type="text"
-                    inputMode="numeric"
+                    inputMode="decimal"
                     placeholder="0"
                     value={field.state.value ? formatNumber(field.state.value) : ""}
                     onChange={(e) =>
@@ -195,7 +195,7 @@ export function TaxCalculatorForm({ onCalculate }: TaxCalculatorFormProps) {
                   <Input
                     id={field.name}
                     type="text"
-                    inputMode="numeric"
+                    inputMode="decimal"
                     placeholder="0"
                     value={field.state.value ? formatNumber(field.state.value) : ""}
                     onChange={(e) =>
@@ -217,7 +217,7 @@ export function TaxCalculatorForm({ onCalculate }: TaxCalculatorFormProps) {
                     type="number"
                     min="0"
                     max="100"
-                    step="0.5"
+                    step="0.01"
                     value={field.state.value}
                     onChange={(e) => {
                       const val = parseFloat(e.target.value) || 0

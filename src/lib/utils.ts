@@ -10,14 +10,14 @@ export function formatCurrency(amount: number): string {
     style: "currency",
     currency: "NGN",
     minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
+    maximumFractionDigits: 2,
   }).format(amount)
 }
 
 export function formatNumber(amount: number): string {
   return new Intl.NumberFormat("en-NG", {
     minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
+    maximumFractionDigits: 2,
   }).format(amount)
 }
 
